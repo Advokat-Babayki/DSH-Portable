@@ -18,3 +18,5 @@ release/
 # os noise
 .DS_Store
 Thumbs.db
+dsh-home/.credentials.yaml
+dsh-home/.agent-presets/
