@@ -1,0 +1,20 @@
+# runtime session data (regenerated)
+dsh-home/sessions/
+dsh-home/cache/
+dsh-home/logs/
+dsh-home/storages/
+
+# node_modules — duplicated from dsh/ for exFAT compatibility
+# (the canonical source is always npm)
+dsh/node_modules/
+dsh-home/profiles/*/node_modules/
+dsh-home/profiles/*/pnpm-lock.yaml
+dsh-home/profiles/*/pnpm-workspace.yaml
+dsh-home/profiles/node_modules/
+
+# release artifacts
+release/
+
+# os noise
+.DS_Store
+Thumbs.db

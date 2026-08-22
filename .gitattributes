@@ -1,0 +1,9 @@
+# normalize line endings per file type
+*.cmd   text eol=crlf
+*.bat   text eol=crlf
+*.sh    text eol=lf
+*.json  text eol=lf
+*.md    text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+LICENSE text eol=lf
