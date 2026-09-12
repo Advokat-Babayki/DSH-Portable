@@ -4,8 +4,9 @@
 
 **Portable [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (dsh) — runs straight from a USB drive, no installation.**
 
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows-blue.svg)](#-quick-start)
+[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Windows-blue.svg)](#-install-no-build-required)
 [![Node](https://img.shields.io/badge/node-%E2%89%A5%2018-brightgreen.svg)](#-requirements)
 [![dsh](https://img.shields.io/npm/v/@deepseek-ai/dsh?label=dsh&color=orange)](https://www.npmjs.com/package/@deepseek-ai/dsh)
 
@@ -20,8 +21,8 @@ switch the OS, keep your sessions.*
 ## 📑 Contents
 
 - [Features](#-features)
-- [Quick start](#-quick-start)
-- [Download](#-download)
+- [Install (no build)](#-install-no-build-required)
+- [Build from source](#-build-from-source-developers)
 - [Usage](#-usage)
 - [Requirements](#-requirements)
 - [Updating the bundle](#-updating-the-bundle)
@@ -31,6 +32,7 @@ switch the OS, keep your sessions.*
 - [Security](#-security)
 - [FAQ / Troubleshooting](#-faq--troubleshooting)
 - [Limitations](#-limitations)
+- [Changelog](#-changelog)
 - [License](#-license)
 
 ## ✨ Features
@@ -41,42 +43,82 @@ switch the OS, keep your sessions.*
 - 🖥️ **Windows (`launch.cmd`) and Linux (`launch.sh`)** from the same bundle
 - 🧩 **Works on exFAT/FAT** — no symlinks, no POSIX permissions, no admin rights
 - 🔄 **One dsh-home for both OSes** — sessions and settings follow you across systems
+- 📦 **Plain dsh, nothing personal** — the bundle ships dsh itself: no third-party plugins, no preinstalled agent presets
 
-## 🚀 Quick start
+## 🚀 Install (no build required)
+
+**You need:** a USB stick, and [Node.js ≥ 18](https://nodejs.org) installed on the
+computer you plug it into. Nothing else — no admin rights, no installer.
+
+**1. Download the bundle** from
+[**Releases**](https://github.com/Advokat-Babayki/DSH-Portable/releases/latest):
+
+| Your OS | File to take |
+|---|---|
+| Windows | `dsh-portable-windows-x64.zip` |
+| Linux / macOS | `dsh-portable-linux-x64.tar.gz` |
+
+**2. Unpack it onto the stick** — any folder, any drive letter, e.g. `D:\dsh-portable\`:
 
 ```bash
-# 1. Build the bundle (needs access to the npm registry)
+# Linux / macOS
+tar -xzf dsh-portable-linux-x64.tar.gz -C /media/usb/dsh-portable
+```
+
+*Windows:* take the `.zip` and extract it with Explorer (right-click →
+**Extract All**). If you downloaded the `.tar.gz` instead, Windows 10+ can
+unpack it in PowerShell with `tar -xzf dsh-portable-linux-x64.tar.gz -C
+D:\dsh-portable` — or use [7-Zip](https://7-zip.org).
+
+**3. Run it:**
+
+```
+Windows:        D:\dsh-portable\launch.cmd          (double-click)
+Linux / macOS:  cd /media/usb/dsh-portable && ./launch.sh --profile web
+```
+
+**4. Add your API key** on the first run — `dsh-home/.credentials.yaml`:
+
+```yaml
+OPENROUTER_API_KEY: sk-or-v1-...
+```
+
+Nothing is installed into the system: sessions, settings and keys live in
+`dsh-home/` on the stick, and `~/.dsh` is never touched. The same stick works on
+Windows and Linux — both OSes share one `dsh-home/`.
+
+> 🧩 **The bundle ships dsh itself and nothing personal** — no third-party
+> plugins, no preinstalled agent presets. Plugins go into
+> `dsh-home/profiles/<profile>/`, agent presets into
+> `dsh-home/.agent-presets/` — install your own whenever you need them.
+
+**Already running dsh on this computer?** One command brings your setup to the
+stick — profiles, settings, sessions and (optionally) API keys:
+
+```bash
+cd /media/usb/dsh-portable
+bash init-portable.sh              # copies keys too; --no-creds to skip them
+```
+
+## 🛠 Build from source (developers)
+
+Build a bundle yourself from the npm registry (needs `node`, `npm`, `tar` and
+network access; about 15 minutes and ~1 GB of free space):
+
+```bash
 git clone https://github.com/Advokat-Babayki/DSH-Portable.git
 cd DSH-Portable
 bash make-portable.sh              # latest @deepseek-ai/dsh
-bash make-portable.sh 0.1.0-rc.7   # or a pinned version (reproducible)
+bash make-portable.sh 0.1.5-rc.1   # or a pinned version (reproducible)
 
-# 2. Unpack to the USB drive
-tar -xzf release/dsh-portable-linux-x64.tar.gz -C /media/usb/dsh-portable
-
-# 3. Optional: bring your existing ~/.dsh (profiles, settings, sessions)
-cd /media/usb/dsh-portable
-bash init-portable.sh              # copies keys too; use --no-creds to skip them
-
-# 4. Run
-./launch.sh --profile web          # web UI (usually on :3080)
+# artifacts land in release/
+#   dsh-portable-linux-x64.tar.gz  (always built)
+#   dsh-portable-windows-x64.zip   (built too when `zip` is in PATH)
 ```
 
-**Windows:** double-click `X:\dsh-portable\launch.cmd`.
-
-> 💡 First run creates `dsh-home/profiles/web/` with a default profile.
-> If you skipped the keys, add them to `dsh-home/.credentials.yaml`:
-> ```yaml
-> OPENROUTER_API_KEY: sk-or-v1-...
-> ```
-
-## 📦 Download
-
-Pre-built bundles are published on the
-[**Releases**](https://github.com/Advokat-Babayki/DSH-Portable/releases) page —
-grab `dsh-portable-linux-x64.tar.gz` or `dsh-portable-windows-x64.zip` and
-unpack it to the stick. No release available yet? Build it yourself — it's one
-command, see [Quick start](#-quick-start).
+Then unpack the archive to the stick exactly as in
+[step 2](#-install-no-build-required). Pin the dsh version: a "latest" build
+silently gets old over time.
 
 ## 🖥️ Usage
 
@@ -164,6 +206,7 @@ dsh-portable/
 ├── patch-js.mjs         # precise JS patches for exFAT (used by the build)
 ├── README.md            # ← you are here
 ├── README.ru.md         # Russian version
+├── CHANGELOG.md         # release history
 └── LICENSE
 ```
 
@@ -233,8 +276,11 @@ plus `node --check` on the unpacked archive.
 - `dsh-home/.credentials.yaml` is a **plain-text file with API keys**, not
   encrypted. Anyone with access to the stick can read it. `init-portable.sh`
   warns about this and can skip the keys: `bash init-portable.sh --no-creds`.
-- Keys never get into git: `dsh-home/.credentials.yaml` and
-  `dsh-home/.agent-presets/` are listed in `.gitignore`.
+- Keys never get into git: the whole live home (`dsh-home/` — settings,
+  profiles, sessions, `.credentials.yaml` and `.agent-presets/`) is ignored, and
+  the repository contains no user data of its own.
+- Never commit your `dsh-home/`: it is your data, not a source file. `git add -A`
+  from a stick is safe — `.gitignore` covers the whole folder.
 - Permissions: on FAT/exFAT every file is world-readable and `chmod 600` is
   impossible — that's why portable-mode dsh doesn't require 0600 (see
   [How it works](#-how-it-works)).
@@ -246,7 +292,39 @@ plus `node --check` on the unpacked archive.
 
 You're in a source checkout, not a built bundle. Run `bash make-portable.sh`
 and unpack the artifact from `release/` to the stick — see
-[Quick start](#-quick-start).
+[Build from source](#-build-from-source-developers).
+
+</details>
+
+<details>
+<summary><b>Windows won't open the file I downloaded</b></summary>
+
+Take the artifact that matches your OS: `-windows-x64.zip` for Windows,
+`-linux-x64.tar.gz` for Linux/macOS. Each archive contains the launcher for its
+own OS only. `.tar.gz` is not a Windows format — Windows 10+ can still unpack it
+in PowerShell (`tar -xzf dsh-portable-linux-x64.tar.gz -C D:\dsh-portable`) or
+with [7-Zip](https://7-zip.org), but that archive has no `launch.cmd`.
+
+</details>
+
+<details>
+<summary><b>How do I add plugins or my own agent presets?</b></summary>
+
+They are not bundled — on purpose. `dsh-home/` starts empty and belongs to you:
+add plugins to a profile under `dsh-home/profiles/<profile>/`, drop agent presets
+into `dsh-home/.agent-presets/`, and keep your own skills and settings there.
+Everything you add stays on the stick, and `dsh-home/` is ignored by git, so
+nothing leaks into the repository by accident.
+
+</details>
+
+<details>
+<summary><b>The archive is 80 MB, but the unpacked folder is huge</b></summary>
+
+That is normal for FAT/exFAT: those filesystems allocate storage in clusters, so
+~57 000 small files (the dependency tree, stored twice) occupy several gigabytes
+even though their real size is ~370 MB. A stick of 16 GB or more is comfortable;
+NTFS/ext4 use space more efficiently if your workflow allows them.
 
 </details>
 
@@ -319,6 +397,24 @@ on the stick. `~/.dsh` and `~/.config` are never touched.
   if you hit it — use ext4.
 - **No hardcoded version**: a bundle built from "latest" gets old over time;
   pin the version explicitly for reproducibility.
+
+## 📝 Changelog
+
+**1.0.0** — first stable release. Build, launchers and packaging are verified on a
+real exFAT stick (build, unpack, run). Highlights:
+
+- `make-portable.sh` actually works end to end (previously the script did not
+  even parse) and validates every patch it applies.
+- Built for FAT/exFAT: no symlinks, no POSIX permissions, no admin rights —
+  `npm install --no-bin-links` and three precise patches to the dependency tree.
+- `launch.sh` / `launch.cmd` set `DSH_HOME` and `DSH_PORTABLE`, check Node.js and
+  the bundle, and explain what to do when something is missing.
+- The repository no longer carries any user data: the live `dsh-home/`
+  (settings, profiles, sessions, keys, personal agent presets) is ignored
+  entirely.
+
+Full history in [CHANGELOG.md](CHANGELOG.md) and in the
+[commit log](https://github.com/Advokat-Babayki/DSH-Portable/commits/main).
 
 ## 📄 License
 

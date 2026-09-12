@@ -1,16 +1,12 @@
-# runtime session data (regenerated)
-dsh-home/sessions/
-dsh-home/cache/
-dsh-home/logs/
-dsh-home/storages/
+# dsh-home — живой портативный дом dsh: настройки, профили, сессии, кэш,
+# ключи (.credentials.yaml) и личные пресеты агентов (.agent-presets/).
+# Это пользовательские данные, а не исходники проекта: в репозитории им
+# места нет. Каждый пользователь получает свой dsh-home при первом запуске.
+dsh-home/
 
 # node_modules — duplicated from dsh/ for exFAT compatibility
 # (the canonical source is always npm)
 dsh/node_modules/
-dsh-home/profiles/*/node_modules/
-dsh-home/profiles/*/pnpm-lock.yaml
-dsh-home/profiles/*/pnpm-workspace.yaml
-dsh-home/profiles/node_modules/
 
 # release artifacts
 release/
@@ -18,5 +14,3 @@ release/
 # os noise
 .DS_Store
 Thumbs.db
-dsh-home/.credentials.yaml
-dsh-home/.agent-presets/
