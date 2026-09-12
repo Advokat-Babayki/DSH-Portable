@@ -197,10 +197,13 @@ make_bundle() {
   cp "$ROOT/launch.$launcher" "$dir/launch.$launcher"
   chmod +x "$dir/launch.$launcher" 2>/dev/null || true
 
-  # ── README & LICENSE ─────────────────────────────────────────
-  [ -f "$ROOT/LICENSE" ] || die "в репозитории нет LICENSE"
-  cp "$ROOT/LICENSE" "$dir/LICENSE"
-  cp "$ROOT/README.md" "$dir/README.md"
+  # ── README, CHANGELOG & LICENSE ──────────────────────────────
+  # README.md бандла ссылается на README.ru.md и CHANGELOG.md, поэтому они
+  # обязательны: без них в собранном бандле были бы битые ссылки.
+  for doc in LICENSE README.md README.ru.md CHANGELOG.md; do
+    [ -f "$ROOT/$doc" ] || die "в репозитории нет $doc"
+    cp "$ROOT/$doc" "$dir/$doc"
+  done
 
   echo "  Bundle prepared: $dir"
 }

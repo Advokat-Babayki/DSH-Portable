@@ -230,7 +230,8 @@ dsh-portable/
 │   └── cache/ logs/ storages/
 ├── launch.sh                # Linux
 ├── launch.cmd               # Windows
-├── README.md
+├── README.md                # + README.ru.md
+├── CHANGELOG.md
 └── LICENSE
 ```
 
