@@ -338,6 +338,21 @@ manager). The bundle intentionally ships without Node.
 </details>
 
 <details>
+<summary><b>Can I keep Node.js on the stick as well?</b></summary>
+
+Yes — that makes the stick work on a computer where Node.js is not installed.
+Download the **portable** Node.js build (`.zip` for Windows, `.tar.xz` for
+Linux), unpack it next to the bundle (`D:\node\` or `/media/usb/node/`) and put
+it in `PATH` before launching:
+
+- Windows: `set PATH=D:\node;%PATH%` then run `dsh-portable\launch.cmd`
+- Linux / macOS: `export PATH=/media/usb/node/bin:$PATH` then `./launch.sh --profile web`
+
+Node.js is distributed under its own license, so the bundle leaves it to you.
+
+</details>
+
+<details>
 <summary><b>tar prints "Cannot change ownership/permissions" while unpacking</b></summary>
 
 Harmless on FAT/exFAT — these filesystems don't store POSIX permissions.

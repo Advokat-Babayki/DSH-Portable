@@ -340,6 +340,21 @@ NTFS/ext4 расходуют место экономнее, если твой с
 </details>
 
 <details>
+<summary><b>Можно ли держать Node.js на самой флешке?</b></summary>
+
+Да — тогда флешка заработает и на компьютере, где Node.js не установлен.
+Скачай **портативную** сборку Node.js (`.zip` для Windows, `.tar.xz` для
+Linux), распакуй рядом с бандлом (`D:\node\` или `/media/usb/node/`) и добавь
+её в `PATH` перед запуском:
+
+- Windows: `set PATH=D:\node;%PATH%`, затем `dsh-portable\launch.cmd`
+- Linux / macOS: `export PATH=/media/usb/node/bin:$PATH`, затем `./launch.sh --profile web`
+
+Node.js распространяется под своей лицензией, поэтому бандл оставляет его тебе.
+
+</details>
+
+<details>
 <summary><b>tar при распаковке пишет «Cannot change ownership/permissions»</b></summary>
 
 На FAT/exFAT это безвредно — эти ФС не хранят права POSIX. Файлы распаковываются
